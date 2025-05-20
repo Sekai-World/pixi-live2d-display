@@ -211,7 +211,7 @@ window.PIXI = PIXI;
   * 3: Just do it! Do id now! [Forced] [default when using audio]
 * Time to code
 ```js
-const category_name = "Idle" // name of the morion category
+const category_name = "Idle" // name of the motion category
 const animation_index = 0 // index of animation under that motion category [null => random]
 const priority_number = 3 // if you want to keep the current animation going or move to new animation by force [0: no priority, 1: idle, 2: normal, 3: forced]
 const audio_link = "https://cdn.jsdelivr.net/gh/RaSan147/pixi-live2d-display@v1.0.3/playground/test.mp3" //[Optional arg, can be null or empty] [relative or full url path] [mp3 or wav file]
