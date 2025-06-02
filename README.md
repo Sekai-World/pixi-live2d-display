@@ -115,13 +115,13 @@ import { Live2DModel } from 'pixi-live2d-display-lipsyncpatch/cubism4';
 
 
 <!-- if support for both Cubism 2.1 and 4 -->
-<script src="https://cdn.jsdelivr.net/gh/RaSan147/pixi-live2d-display@v0.5.0-ls-7/dist/index.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/RaSan147/pixi-live2d-display@v0.5.0-ls-8/dist/index.min.js"></script>
 
 <!-- if only Cubism 2.1 support-->
-<script src="https://cdn.jsdelivr.net/gh/RaSan147/pixi-live2d-display@v0.5.0-ls-7/dist/cubism2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/RaSan147/pixi-live2d-display@v0.5.0-ls-8/dist/cubism2.min.js"></script>
 
 <!-- if only Cubism 4 support-->
-<script src="https://cdn.jsdelivr.net/gh/RaSan147/pixi-live2d-display@v0.5.0-ls-7/dist/cubism4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/RaSan147/pixi-live2d-display@v0.5.0-ls-8/dist/cubism4.min.js"></script>
 ```
 
 In this way, all the exported members are available under `PIXI.live2d` namespace, such as `PIXI.live2d.Live2DModel`.

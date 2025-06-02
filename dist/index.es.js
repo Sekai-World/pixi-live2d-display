@@ -74,7 +74,7 @@ const config = {
   preserveExpressionOnMotion: true,
   cubism4: CubismConfig
 };
-const VERSION = "v0.5.0-ls-7";
+const VERSION = "v0.5.0-ls-8";
 const logger = {
   log(tag, ...messages) {
     if (config.logLevel <= config.LOG_LEVEL_VERBOSE) {

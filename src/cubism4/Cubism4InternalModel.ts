@@ -143,7 +143,7 @@ export class Cubism4InternalModel extends InternalModel {
         };
         this.renderer.startUp(gl);
 
-        if(!this.renderer._clippingManager) {
+        if (!this.renderer._clippingManager) {
             return;
         }
 
