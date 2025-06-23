@@ -6593,8 +6593,8 @@ var __async = (__this, __arguments, generator) => {
     // 高さ
   }
   const ColorChannelCount = 4;
-  const ClippingMaskMaxCountOnDefault = 36;
-  const ClippingMaskMaxCountOnMultiRenderTexture = 32;
+  const ClippingMaskMaxCountOnDefault = 999;
+  const ClippingMaskMaxCountOnMultiRenderTexture = 999;
   const ShaderCount = 10;
   let s_instance;
   let s_viewport;
@@ -8258,7 +8258,8 @@ var __async = (__this, __arguments, generator) => {
     release() {
       var _a, _b, _c;
       const self2 = this;
-      this._clippingManager.release();
+      if (this._clippingManager)
+        this._clippingManager.release();
       self2._clippingManager = void 0;
       (_a = this.gl) == null ? void 0 : _a.deleteBuffer(this._bufferData.vertex);
       this._bufferData.vertex = null;
