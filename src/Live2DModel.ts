@@ -188,23 +188,23 @@ export class Live2DModel<IM extends InternalModel = InternalModel> extends Conta
     ): Promise<boolean> {
         return index === undefined
             ? this.internalModel.motionManager.startRandomMotion(group, priority, {
-                sound: sound,
-                volume: volume,
-                expression: expression,
-                resetExpression: resetExpression,
-                crossOrigin: crossOrigin,
-                onFinish: onFinish,
-                onError: onError,
-            })
+                  sound: sound,
+                  volume: volume,
+                  expression: expression,
+                  resetExpression: resetExpression,
+                  crossOrigin: crossOrigin,
+                  onFinish: onFinish,
+                  onError: onError,
+              })
             : this.internalModel.motionManager.startMotion(group, index, priority, {
-                sound: sound,
-                volume: volume,
-                expression: expression,
-                resetExpression: resetExpression,
-                crossOrigin: crossOrigin,
-                onFinish: onFinish,
-                onError: onError,
-            });
+                  sound: sound,
+                  volume: volume,
+                  expression: expression,
+                  resetExpression: resetExpression,
+                  crossOrigin: crossOrigin,
+                  onFinish: onFinish,
+                  onError: onError,
+              });
     }
 
     /**

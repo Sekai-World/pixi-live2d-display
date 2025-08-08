@@ -18,18 +18,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{github.ref_name}}
           submodules: true
           fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
           registry-url: 'https://registry.npmjs.org'
           cache: "npm"
 
       - name: Cache core files
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: cache-core
         with:
           path: |
@@ -38,6 +37,7 @@ jobs:
           key: ${{ hashFiles('scripts/setup.js') }}
 
       - run: npm ci
+      - run: npm install @rollup/rollup-linux-x64-gnu --force
 
       - name: Set up core files
         if: steps.cache-core.outputs.cache-hit != 'true'
@@ -48,18 +48,23 @@ jobs:
       - run: npm run type
       - run: npm run build
 
-      
+
       - name: Commit files
         run: |
           git config --global user.name 'RaSan147'
           git config --global user.email '34002411+RaSan147@users.noreply.github.com'
-          git add --all
-          git commit -am "Automated report"
-          git push
+
+          # Check if there are changes
+          if ! git diff --quiet; then
+            git add --all
+            git commit -m "Automated report"
+            git push
+          else
+            echo "No changes to commit."
+          fi
 
 
-
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: my-artifact
           path: ${{ github.workspace }}/dist
@@ -69,7 +74,7 @@ jobs:
         with:
           run: npm test
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: diff-images

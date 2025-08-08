@@ -6,6 +6,7 @@ import { SoundManager, VOLUME } from "@/cubism-common/SoundManager";
 import { logger } from "@/utils";
 import { utils } from "@pixi/core";
 import type { JSONObject, Mutable } from "../types/helpers";
+import { isEmpty } from "lodash-es";
 
 export interface MotionManagerOptions {
     /**
@@ -461,7 +462,8 @@ export abstract class MotionManager<Motion = any, MotionSpec = any> extends util
 
         const motion = await this.loadMotion(group, index);
 
-        if (audio) {
+        // audio may be dispose in test case "handles race conditions"
+        if (audio && !isEmpty(audio.src)) {
             const readyToPlay = SoundManager.play(audio).catch((e) =>
                 logger.warn(this.tag, "Failed to play audio", audio!.src, e),
             );
@@ -473,7 +475,8 @@ export abstract class MotionManager<Motion = any, MotionSpec = any> extends util
         }
 
         if (!this.state.start(motion, group, index, priority)) {
-            if (audio) {
+            // audio could be dispose in test case "handles race conditions"
+            if (audio && !isEmpty(audio.src)) {
                 SoundManager.dispose(audio);
                 this.currentAudio = undefined;
             }
