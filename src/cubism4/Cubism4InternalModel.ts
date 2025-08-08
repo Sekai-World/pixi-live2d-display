@@ -232,7 +232,7 @@ export class Cubism4InternalModel extends InternalModel {
         // revert the timestamps to be milliseconds
         this.updateNaturalMovements(dt * 1000, now * 1000);
 
-        if (this.lipSync && this.motionManager.currentAudio) {
+        if (this.lipSync && this.motionManager.speaking) {
             let value = this.motionManager.mouthSync();
             let min_ = 0;
             const max_ = 1;

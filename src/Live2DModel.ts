@@ -213,6 +213,7 @@ export class Live2DModel<IM extends InternalModel = InternalModel> extends Conta
      *  group: The motion group,
      *  index: Index in the motion group,
      *  priority - The priority to be applied. (0: No priority, 1: IDLE, 2:NORMAL, 3:FORCE) (default: 2)
+     *  toLastFrame - Whether to play only the last frame (default: false)
      * }[]
      * @return Promise that resolves with a list, indicates the motion is successfully started, with false otherwise.
      */
@@ -221,11 +222,12 @@ export class Live2DModel<IM extends InternalModel = InternalModel> extends Conta
             group: string,
             index: number,
             priority?: MotionPriority,
+            toLastFrame?: boolean,
         }[]
     ): Promise<boolean[]> {
         this.internalModel.extendParallelMotionManager(motionList.length);
         const result = motionList.map((m, idx) => (
-            this.internalModel.parallelMotionManager[idx]?.startMotion(m.group, m.index, m.priority)
+            this.internalModel.parallelMotionManager[idx]?.startMotion(m.group, m.index, m.priority, m.toLastFrame)
         ));
         let flags = [];
         for (let r of result) {

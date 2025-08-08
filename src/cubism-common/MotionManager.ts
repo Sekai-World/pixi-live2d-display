@@ -108,6 +108,11 @@ export abstract class MotionManager<Motion = any, MotionSpec = any> extends util
     playing = false;
 
     /**
+     * Flags there's a audio playing.
+     */
+    speaking = false;
+
+    /**
      * Flags the instances has been destroyed.
      */
     destroyed = false;
@@ -280,6 +285,7 @@ export abstract class MotionManager<Motion = any, MotionSpec = any> extends util
                             that.expressionManager &&
                             that.expressionManager.resetExpression();
                         that.currentAudio = undefined;
+                        that.speaking = false;
                     }, // reset expression when audio is done
                     (e, that = this) => {
                         logger.error(this.tag, "Error during audio playback:", e);
@@ -289,11 +295,13 @@ export abstract class MotionManager<Motion = any, MotionSpec = any> extends util
                             that.expressionManager &&
                             that.expressionManager.resetExpression();
                         that.currentAudio = undefined;
+                        that.speaking = false;
                     }, // on error
                     crossOrigin,
                 );
 
                 this.currentAudio = audio!;
+                this.speaking = true;
 
                 SoundManager.volume = volume;
 
@@ -341,6 +349,16 @@ export abstract class MotionManager<Motion = any, MotionSpec = any> extends util
     }
 
     /**
+     * Attaches an AnalyserNode for lip sync. Can't use with speak().
+     * This can be used to attach one analyzer to multiple models.
+     * @param analyzer - The AnalyserNode to attach.
+     */
+    attachAnalyzer(analyzer: AnalyserNode): void {
+        this.currentAnalyzer = analyzer;
+        this.speaking = true;
+    }
+
+    /**
      * Starts a motion as given priority.
      * @param group - The motion group.
      * @param index - Index in the motion group.
@@ -379,7 +397,7 @@ export abstract class MotionManager<Motion = any, MotionSpec = any> extends util
             return false;
         }
         // Does not start a new motion if audio is still playing
-        if (this.currentAudio) {
+        if (this.currentAudio && this.speaking) {
             if (!this.currentAudio.ended && priority != MotionPriority.FORCE) {
                 return false;
             }
@@ -394,6 +412,8 @@ export abstract class MotionManager<Motion = any, MotionSpec = any> extends util
         if (this.currentAudio) {
             // TODO: reuse the audio?
             SoundManager.dispose(this.currentAudio);
+            this.currentAudio = undefined;
+            this.speaking = false;
         }
 
         let audio: HTMLAudioElement | undefined;
@@ -431,6 +451,7 @@ export abstract class MotionManager<Motion = any, MotionSpec = any> extends util
                             that.expressionManager &&
                             that.expressionManager.resetExpression();
                         that.currentAudio = undefined;
+                        that.speaking = false;
                     }, // reset expression when audio is done
                     (e, that = this) => {
                         logger.error(this.tag, 'Error during audio playback:', e); // Add this line
@@ -440,11 +461,13 @@ export abstract class MotionManager<Motion = any, MotionSpec = any> extends util
                             that.expressionManager &&
                             that.expressionManager.resetExpression();
                         that.currentAudio = undefined;
+                        that.speaking = false;
                     }, // on error
                     crossOrigin,
                 );
 
                 this.currentAudio = audio!;
+                this.speaking = true;
 
                 SoundManager.volume = volume;
 
@@ -479,6 +502,7 @@ export abstract class MotionManager<Motion = any, MotionSpec = any> extends util
             if (audio && !isEmpty(audio.src)) {
                 SoundManager.dispose(audio);
                 this.currentAudio = undefined;
+                this.speaking = false;
             }
 
             return false;
@@ -573,6 +597,8 @@ export abstract class MotionManager<Motion = any, MotionSpec = any> extends util
             SoundManager.dispose(this.currentAudio);
             this.currentAudio = undefined;
         }
+        this.currentAnalyzer = undefined;
+        this.speaking = false;
     }
 
     /**

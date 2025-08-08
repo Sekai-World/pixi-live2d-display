@@ -68,6 +68,7 @@ export abstract class ParallelMotionManager<Motion = any, MotionSpec = any> exte
         group: string,
         index: number,
         priority: MotionPriority = MotionPriority.NORMAL,
+        toLastFrame: boolean = false
     ): Promise<boolean> {
         if (!this.state.reserve(group, index, priority)) {
             return false;
@@ -85,13 +86,17 @@ export abstract class ParallelMotionManager<Motion = any, MotionSpec = any> exte
         if (!this.state.start(motion, group, index, priority)) {
             return false;
         }
-        logger.log(this.tag, "Start motion:", this.getMotionName(definition));
+        logger.log(this.tag, "Start motion:", this.getMotionName(definition), ", toLastFrame: ", toLastFrame);
 
         this.emit("motionStart", group, index, undefined);
 
         this.playing = true;
 
-        this._startMotion(motion!);
+        if (toLastFrame) {
+            this._toMotionLastFrame(motion!);
+        } else {
+            this._startMotion(motion!);
+        }
 
         return true;
     }
@@ -190,6 +195,11 @@ export abstract class ParallelMotionManager<Motion = any, MotionSpec = any> exte
      * Starts the Motion.
      */
     protected abstract _startMotion(motion: Motion, onFinish?: (motion: Motion) => void): number;
+
+    /**
+     * Starts the Motion at last frame.
+     */
+    protected abstract _toMotionLastFrame(motion: Motion): void;
 
     /**
      * Stops all playing motions.

@@ -41,6 +41,19 @@ export class Cubism4ParallelMotionManager extends ParallelMotionManager<CubismMo
         return this.queueManager.startMotion(motion, false, performance.now());
     }
 
+    protected _toMotionLastFrame(motion: CubismMotion): void {
+        this.queueManager.stopAllMotions();
+
+        const motionQueueEntryHandle = this.queueManager.startMotion(motion, false, performance.now());
+        const motionQueueEntry = this.queueManager.getCubismMotionQueueEntry(motionQueueEntryHandle)!;
+
+        // initialize time points manually
+        motionQueueEntry.setIsStarted(true);
+        motionQueueEntry.setStartTime(-2); // set smaller than end time
+        motionQueueEntry.setEndTime(-1); // set to -1 to stop motion and avoid fade out
+        motionQueueEntry.setFadeInStartTime(0); // set to 0 to avoid fade in
+    }
+
     protected _stopAllMotions(): void {
         this.queueManager.stopAllMotions();
     }

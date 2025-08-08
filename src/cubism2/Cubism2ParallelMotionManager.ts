@@ -34,6 +34,10 @@ export class Cubism2ParallelMotionManager extends ParallelMotionManager<Live2DMo
         return this.queueManager.startMotion(motion);
     }
 
+    protected _toMotionLastFrame(motion: Live2DMotion): void {
+        //TODO
+    }
+
     protected _stopAllMotions(): void {
         this.queueManager.stopAllMotions();
     }

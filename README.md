@@ -135,13 +135,37 @@ See here for basic usage: [pixi-live2d-display-lipsync](https://github.com/RaSan
 
 ```ts
 model.parallelMotion([
-  {group: motion_group1, index: motion_index1, priority: MotionPriority.NORMAL},
-  {group: motion_group2, index: motion_index2, priority: MotionPriority.NORMAL},
+  {group: motion_group1, index: motion_index1, priority: MotionPriority.NORMAL, toLastFrame: false},
+  {group: motion_group2, index: motion_index2, priority: MotionPriority.NORMAL, toLastFrame: false},
 ]);
 ```
 
 If you need to synchronize the playback of expressions and sounds, please use`model.motion`/`model.speak` to play one of the motions, and use `model.parallelMotion` to play the remaining motions. Each item in the motion list has independent priority control based on its index, consistent with the priority logic of `model.motion`.
 
+The property `toLastFrame` can force model play the last frame of the target motion, only work for cubism4 models for now.
+
+## Attach external audio analyzer for lipsync
+
+```ts
+const audio = new Audio("/path/to/your/voice.mp3");
+audio.play();
+
+const audioContext = new AudioContext();
+const source = audioContext.createMediaElementSource(audio);
+const analyzer = audioContext.createAnalyser();
+
+analyzer.fftSize = 2048;
+analyzer.minDecibels = -100;
+analyzer.maxDecibels = -10;
+analyzer.smoothingTimeConstant = 0.85;
+
+source.connect(analyzer);
+analyzer.connect(audioContext.destination);
+
+model.internalModel.motionManager.attachAnalyzer(analyzer);
+```
+
+`model.internalModel.motionManager.attachAnalyzer(analyzer)` method to switch on lipsync for the model by your analyzer. It can also be used in realtime lipsync from microphone. `model.stopSpeaking()` can release the reference of the analyzer.
 
 # See here for more Documentation: [Documentation](https://guansss.github.io/pixi-live2d-display/)
 
