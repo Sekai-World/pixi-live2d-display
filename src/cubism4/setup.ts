@@ -1,4 +1,4 @@
-import { logger } from "@/utils";
+import { logger, MBToByte } from "@/utils";
 import type { CubismStartupOption } from "@cubism/live2dcubismframework";
 import { CubismFramework, LogLevel } from "@cubism/live2dcubismframework";
 
@@ -56,5 +56,8 @@ export function startUpCubism4(options?: CubismStartupOption) {
     );
 
     CubismFramework.startUp(options);
-    CubismFramework.initialize();
+
+    // 0 to 34 models are supported
+    // if 0 to 19 set to 32 MB and can reduce mem
+    CubismFramework.initialize(MBToByte(64));
 }
