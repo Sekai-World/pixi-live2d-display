@@ -25,6 +25,6 @@ jobs:
         run: |
           TAG=$(jq .version package.json | grep -oP '^"v?\d+\.\d+\.\d+-?\K(\w+)?')
           echo "Publishing to npm with tag: ${TAG:-latest}"
-          npm publish --tag ${TAG:-latest}
+          npm publish --tag ${TAG:-latest} --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
