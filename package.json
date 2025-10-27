@@ -1,6 +1,6 @@
 {
   "name": "@sekai-world/pixi-live2d-display-mulmotion",
-  "version": "v0.5.0-mm-6",
+  "version": "v0.5.1",
   "description": "Live2D plugin for PixiJS (with lipsync patch (with multi-motion))",
   "main": "dist/index.js",
   "type": "module",
@@ -28,9 +28,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/K-bai/pixi-live2d-display.git"
+    "url": "https://github.com/Sekai-World/pixi-live2d-display.git"
   },
-  "author": "K-bai <kongbaiyo@live.cn>",
+  "author": "Sekai World <dev@sekai.best>",
   "license": "MIT",
   "scripts": {
     "setup": "node scripts/setup.js",
