@@ -1,4 +1,4 @@
-import dtsPackageJson from "dts-bundle-generator/package.json" assert { type: "json" };
+import dtsPackageJson from "dts-bundle-generator/package.json" with { type: "json" };
 import { readFileSync, writeFileSync } from "fs";
 import { dirname, resolve } from "path";
 import { fileURLToPath } from "url";
